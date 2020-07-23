@@ -1,0 +1,209 @@
+<p>dashboard works!</p>
+
+<p>API Login works!</p>
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6 ">
+            <h3>Video Library</h3>
+            <div class="upload-btn-wrapper">
+                <button class="btn btn-outline-primary">Upload a file</button>
+                <input type="file" name="myfile" multiple (change)="detectFiles($event)"
+                    accept=".jpg,.jpeg.,.gif,.png,.mov,.mp4" />
+            </div>
+
+            <div cdkDropList [cdkDropListData]="urls" style="border: 1px #dcdada solid; padding: 30px;"
+                [cdkDropListConnectedTo]="secondList" #firstList="cdkDropList">
+                <div *ngFor="let url of urls" class="VideoLibrary" cdkDrag>
+                    <table>
+                        <tr>
+                            <td><img [src]="url" class="rounded mb-3" width="150"></td>
+                            <td style="width: 100%;">
+                                <div style="margin-left: 7%;" *ngFor="let details of fileDetails; let i=index">
+                                    <p>File Name: <span>{{details.name}}</span></p>
+                                    <p>Size: <span>{{details.size}} bytes</span></p>
+                                    <p>Type: <span>{{details.type}}</span></p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <div style="float: right;">
+                <button (click)="uploadFile()" style="margin-right: 10px;"
+                    class="btn btn-outline-primary">Upload</button>
+                <button (click)="applyChanges()" style="margin-right: 10px;"
+                    class="btn btn-outline-success">Apply</button>
+                <button class="btn btn-outline-warning">Cancel</button>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <h3>Effects Used</h3>
+            <div cdkDropList [cdkDropListData]="usedeffects" style="border: 1px #dcdada solid; padding: 30px;"
+                [cdkDropListConnectedTo]="secondList" #firstList="cdkDropList">
+                <div class="container" *ngFor="let usedeffect of usedeffects; let i=index" cdkDrag>
+                    <div class="col-md-6">
+                        <!--<img [src]=getSantizeUrl(medialibrary.children[0].originalFilePath) alt="">-->
+                        <table>
+                            <tr>
+                                <td><img src="../../assets/images/noimage.png" class="rounded mb-3" width="150"></td>
+                                <td style="width: 100%;">
+                                    <div style="margin-left: 5px;">
+                                        <p>File Name: <span>{{usedeffect.name}}</span></p>
+
+                                        <p>Layout ID: <span>{{usedeffect.layoutIdentifier}}</span>
+                                        </p>
+                                        <button class="btn btn-outline-primary" data-toggle="modal"
+                                            data-target="#exampleModal">Edit</button>
+                                        <!-- Button trigger modal -->
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Edit Media Effect
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-check">
+
+
+                                                            <div class="container"
+                                                                *ngFor="let mediaItem of mediaItems2; let i=index">
+                                                                <input type="checkbox" class="form-check-input"
+                                                                    id="exampleCheck1">
+                                                                <div class="col-md-8">
+                                                                    <!--<img [src]=getSantizeUrl(medialibrary.children[0].originalFilePath) alt="">-->
+                                                                    <table>
+                                                                        <tr>
+                                                                            <td><img src="../../assets/images/noimage.png"
+                                                                                    class="rounded mb-3" width="150">
+                                                                            </td>
+                                                                            <td style="width: 100%;">
+                                                                                <div style="margin-left: 5px;">
+                                                                                    <p>File Name:
+                                                                                        <span>{{mediaItem.displayName}}</span>
+                                                                                    </p>
+
+                                                                                    <p>File Type:
+                                                                                        <span>{{mediaItem.category}}</span>
+                                                                                    </p>
+                                                                                </div>
+                                                                            </td>
+
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                                <hr>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save
+                                                            changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Sympholights - Config</h3>
+            <div class=" accordion" id="accordion">
+                <div cdkDropList [cdkDropListData]="newurls" [cdkDropListConnectedTo]="firstList"
+                    #secondList="cdkDropList" (cdkDropListDropped)="drop($event)">
+                    <div *ngFor="let sympholight of sympholights; let i=index" class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    [attr.data-target]="'#' + sympholight.name" aria-expanded="true"
+                                    aria-controls="collapseOne">
+                                    {{sympholight.name}}
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="{{sympholight.name}}" class="collapse" aria-labelledby="headingOne"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <span>Status: </span><span style="color: limegreen;">{{sympholight.status}}</span>
+                                <h5>Media Library</h5>
+
+                                <div class="container" *ngFor="let mediaItem of mediaItems2; let i=index">
+                                    <div class="col-md-8">
+                                        <!--<img [src]=getSantizeUrl(medialibrary.children[0].originalFilePath) alt="">-->
+                                        <table>
+                                            <tr>
+                                                <td><img src="../../assets/images/noimage.png" class="rounded mb-3"
+                                                        width="150"></td>
+                                                <td style="width: 100%;">
+                                                    <div style="margin-left: 5px;">
+                                                        <p>File Name:
+                                                            <span>{{mediaItem.displayName}}</span></p>
+
+                                                        <p>File Type: <span>{{mediaItem.category}}</span>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <hr>
+                                </div>
+                                <br>
+                                <h5>Local Storage</h5>
+                                <div *ngFor="let url of newurls" class="VideoLibrary">
+                                    <table>
+                                        <tr>
+                                            <td><img [src]="url" class="rounded mb-3" width="150"></td>
+                                            <td style="width: 100%;">
+                                                <div style="margin-left: 7%;"
+                                                    *ngFor="let details of fileDetails; let i=index">
+                                                    <p>File Name: <span>{{details.name}}</span></p>
+                                                    <p>Size: <span>{{details.size}} bytes</span></p>
+                                                    <p>Type: <span>{{details.type}}</span></p>
+                                                </div>
+                                            </td>
+                                            <td style="width: 100%;">
+                                                <p
+                                                    style="color: deepskyblue; float: right; margin-right: 20%; font-weight: 400; ">
+                                                    NEW</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+
+
+</div>

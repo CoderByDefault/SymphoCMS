@@ -1,0 +1,12 @@
+[{
+    "id": "1",
+    "name": "Steubenstrasse",
+    "ipAddress": "127.0.0.1",
+    "serverLogin": "admin",
+    "serverPassword": "admin",
+    "sympAddress": "Steubenstrasse",
+    "longitude": "8.793960",
+    "latitude": "51.734180",
+    "status": "Online"
+  }
+]
